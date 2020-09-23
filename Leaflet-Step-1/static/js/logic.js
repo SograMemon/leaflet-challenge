@@ -33,14 +33,14 @@
       pointToLayer: function (feature, latlng) {
        
           return L.circleMarker(latlng, {
-            radius: feature.geometry.coordinates[2],
+            radius: feature.properties.mag*4,
             fillColor: chooseColor(feature.properties.mag),
             color: "white",
-            weight: 1,
+            weight: 0.5,
             opacity: 1,
             fillOpacity: 0.75
-        }).bindPopup("<h3>" + feature.properties.place +
-        "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+        }).bindPopup("<h3> Location: " + feature.properties.place +
+        "</h3><hr><p>Time: " + new Date(feature.properties.time) + "</p>"+"<p> Magnitude: "+feature.properties.mag+"</p>");
         
       }
 
@@ -65,8 +65,10 @@
   
     var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
       attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+      tileSize: 512,
       maxZoom: 18,
       id: "dark-v10",
+      zoomOffset: -1,
       accessToken: API_KEY
     });
   
@@ -86,7 +88,7 @@
       center: [
         37.09, -95.71
       ],
-      zoom: 5,
+      zoom: 3,
       layers: [streetmap, earthquakes]
     });
   
